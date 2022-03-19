@@ -493,6 +493,7 @@ startup {
     settings.Add("ch2blocked", false, "Blocked by Hand", "ch2acidlake");
     settings.Add("ch2unblocked", false, "Unblocked by Hand", "ch2acidlake");
     settings.Add("ch2exitacidlake", true, "Exit Acid Lake", "ch2acidlake");
+  settings.Add("ch2end", true, "Chapter 2 end", "ch2");
 }
 
 start {
