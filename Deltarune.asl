@@ -3,10 +3,16 @@
 
 state("Deltarune", "v1.10/v1.09/v1.08") {
   uint room : "Deltarune.exe", 0x6EF248;
+
+  uint ch2end1 : "Deltarune.exe", 0x436BD4;
+  uint ch2end2 : "Deltarune.exe", 0x6EF220, 0xDC;
 }
 
 state("Deltarune", "v1.07/v1.06/v1.05/v1.00") {
   uint room : "Deltarune.exe", 0x6EBF08;
+
+  uint ch2end1 : "Deltarune.exe", 0x436BD4;
+  uint ch2end2 : "Deltarune.exe", 0x6EF220, 0xDC;
 }
 
 state("Deltarune", "SURVEY_PROGRAM") {
@@ -41,84 +47,85 @@ init {
         vars.done = 0; // bool have we triggered this split already?
         vars.oldroom = 1; // int required old (last frame) room, -1 if none
         vars.curroom = 2;  // int required current room, -1 if none
+        vars.special = 3; // int if this split need special handleing, -1 if none
         vars.splits = new Dictionary<string, object[]>() {
             /*
             *   All Chapters
             */
-            {"startch2", new object[] {false, -1, 28}},
+            {"startch2", new object[] {false, -1, 28, -1}},
             /*
             *   Chapter 1
             */
-            {"ch1survey", new object[] {false, 282, 283}},
-            {"ch1lightworld", new object[] {false, -1, 315}},
-            {"ch1pre-castletown", new object[] {false, -1, 325}},
-            {"ch1castletown", new object[] {false, -1, 330}},
-            {"ch1rudinnskip1", new object[] {false, -1, 333}},
-            {"ch1rudinnskip2", new object[] {false, -1, 335}},
-            {"ch1rudinnskip3", new object[] {false, -1, 337}},
-            {"ch1vandalizedpuzzle", new object[] {false, -1, 344}},
-            {"ch1exitfields", new object[] {false, -1, 346}},
-            {"ch1pawnskip1", new object[] {false, -1, 348}},
-            {"ch1pawnskip2", new object[] {false, -1, 352}},
-            {"ch1exitcheckerboard", new object[] {false, -1, 354}},
-            {"ch1bloxerskip1", new object[] {false, -1, 366}},
-            {"ch1bloxerskip2", new object[] {false, -1, 377}},
-            {"ch1exitforest", new object[] {false, -1, 379}},
-            {"ch1captured", new object[] {false, -1, 386}},
-            {"ch1exitprison", new object[] {false, -1, 390}},
-            {"ch1rudinnrangerskip", new object[] {false, -1, 397}},
-            {"ch1headhathyskip", new object[] {false, -1, 401}},
-            {"ch1shopping", new object[] {false, -1, 406}},
-            {"ch1exitthrone", new object[] {false, -1, 408}},
-            {"ch1king", new object[] {false, -1, 410}},
+            {"ch1survey", new object[] {false, 282, 283, -1}},
+            {"ch1lightworld", new object[] {false, -1, 315, -1}},
+            {"ch1pre-castletown", new object[] {false, -1, 325, -1}},
+            {"ch1castletown", new object[] {false, -1, 330, -1}},
+            {"ch1rudinnskip1", new object[] {false, -1, 333, -1}},
+            {"ch1rudinnskip2", new object[] {false, -1, 335, -1}},
+            {"ch1rudinnskip3", new object[] {false, -1, 337, -1}},
+            {"ch1vandalizedpuzzle", new object[] {false, -1, 344, -1}},
+            {"ch1exitfields", new object[] {false, -1, 346, -1}},
+            {"ch1pawnskip1", new object[] {false, -1, 348, -1}},
+            {"ch1pawnskip2", new object[] {false, -1, 352, -1}},
+            {"ch1exitcheckerboard", new object[] {false, -1, 354, -1}},
+            {"ch1bloxerskip1", new object[] {false, -1, 366, -1}},
+            {"ch1bloxerskip2", new object[] {false, -1, 377, -1}},
+            {"ch1exitforest", new object[] {false, -1, 379, -1}},
+            {"ch1captured", new object[] {false, -1, 386, -1}},
+            {"ch1exitprison", new object[] {false, -1, 390, -1}},
+            {"ch1rudinnrangerskip", new object[] {false, -1, 397, -1}},
+            {"ch1headhathyskip", new object[] {false, -1, 401, -1}},
+            {"ch1shopping", new object[] {false, -1, 406, -1}},
+            {"ch1exitthrone", new object[] {false, -1, 408, -1}},
+            {"ch1king", new object[] {false, -1, 410, -1}},
             /*
             *   Chapter 2
             */
-            {"ch2lightworld", new object[] {false, -1, 85}},
-            {"ch2pre-cyberfield", new object[] {false, -1, 88}},
-            {"ch2tasque", new object[] {false, -1, 93}},
-            {"ch2mecabattlegame", new object[] {false, -1, 94}},
-            {"ch2virovirokun1", new object[] {false, 95, 96}},
-            {"ch2agree2all", new object[] {false, 96, 95}},
-            {"ch2djfight", new object[] {false, 98, 106}},
-            {"ch2djshop", new object[] {false, 237, 99}},
-            {"ch2werewire1", new object[] {false, -1, 105}},
-            {"ch2virovirokunpuzzle&cup", new object[] {false, -1, 101}},
-            {"ch2exitcyberfield", new object[] {false, -1, 120}},
+            {"ch2lightworld", new object[] {false, -1, 85, -1}},
+            {"ch2pre-cyberfield", new object[] {false, -1, 88, -1}},
+            {"ch2tasque", new object[] {false, -1, 93, -1}},
+            {"ch2mecabattlegame", new object[] {false, -1, 94, -1}},
+            {"ch2virovirokun1", new object[] {false, 95, 96, -1}},
+            {"ch2agree2all", new object[] {false, 96, 95, -1}},
+            {"ch2djfight", new object[] {false, 98, 106, -1}},
+            {"ch2djshop", new object[] {false, 237, 99, -1}},
+            {"ch2werewire1", new object[] {false, -1, 105, -1}},
+            {"ch2virovirokunpuzzle&cup", new object[] {false, -1, 101, -1}},
+            {"ch2exitcyberfield", new object[] {false, -1, 120, -1}},
             {"ch2poppup", new object[] {false, -1, 125}},
-            {"ch2virovirokun2ambuy-lance1", new object[] {false, -1, 128}},
-            {"ch2buttonforcefield", new object[] {false, -1, 130}},
-            {"ch2werewire2", new object[] {false, -1, 133}},
-            {"ch2micepuzzle2", new object[] {false, -1, 135}},
-            {"ch2cheezemaze", new object[] {false, -1, 136}},
-            {"ch2micepuzzle3", new object[] {false, -1, 137}},
-            {"ch2berdly", new object[] {false, 138, 139}},
-            {"ch2berdlysnowgrave", new object[] {false, 138, 137}},
-            {"ch2spamton", new object[] {false, 140, 139}},
-            {"ch2fullparty", new object[] {false, -1, 143}},
-            {"ch2ambuy-lance2", new object[] {false, -1, 144}},
-            {"ch2maus", new object[] {false, -1, 145}},
-            {"ch2exitcybercity", new object[] {false, -1, 160}},
-            {"ch2exitcybercitysnowgrave", new object[] {false, 146, 0}},
-            {"ch2escapecell", new object[] {false, -1, 163}},
-            {"ch2lightpuzzle1", new object[] {false, -1, 164}},
-            {"ch2lightpuzzle2", new object[] {false, -1, 165}},
-            {"ch2lightpuzzle3", new object[] {false, -1, 166}},
-            {"ch2swatchling1", new object[] {false, -1, 170}},
-            {"ch2swatchling2", new object[] {false, -1, 171}},
-            {"ch2tasquemanager", new object[] {false, -1, 172}},
-            {"ch2mauswheel", new object[] {false, 193, 191}},
-            {"ch2dogpipis", new object[] {false, -1, 194}},
-            {"ch2swatchling3", new object[] {false, -1, 196}},
-            {"ch2tasquemanagersnowgrave", new object[] {false, -1, 176}},
-            {"ch2enteracidlake", new object[] {false, -1, 200}},
-            {"ch2blocked", new object[] {false, -1, 212}},
-            {"ch2unblocked", new object[] {false, -1, 202}},
-            {"ch2exitacidlake", new object[] {false, -1, 203}},
-            {"ch2werewerewire", new object[] {false, -1, 205}},
-            {"ch2queen", new object[] {false, -1, 207}},
+            {"ch2virovirokun2ambuy-lance1", new object[] {false, -1, 128, -1}},
+            {"ch2buttonforcefield", new object[] {false, -1, 130, -1}},
+            {"ch2werewire2", new object[] {false, -1, 133, -1}},
+            {"ch2micepuzzle2", new object[] {false, -1, 135, -1}},
+            {"ch2cheezemaze", new object[] {false, -1, 136, -1}},
+            {"ch2micepuzzle3", new object[] {false, -1, 137, -1}},
+            {"ch2berdly", new object[] {false, 138, 139, -1}},
+            {"ch2berdlysnowgrave", new object[] {false, 138, 137, -1}},
+            {"ch2spamton", new object[] {false, 140, 139, -1}},
+            {"ch2fullparty", new object[] {false, -1, 143, -1}},
+            {"ch2ambuy-lance2", new object[] {false, -1, 144, -1}},
+            {"ch2maus", new object[] {false, -1, 145, -1}},
+            {"ch2exitcybercity", new object[] {false, -1, 160, -1}},
+            {"ch2exitcybercitysnowgrave", new object[] {false, 146, 0, -1}},
+            {"ch2escapecell", new object[] {false, -1, 163, -1}},
+            {"ch2lightpuzzle1", new object[] {false, -1, 164, -1}},
+            {"ch2lightpuzzle2", new object[] {false, -1, 165, -1}},
+            {"ch2lightpuzzle3", new object[] {false, -1, 166, -1}},
+            {"ch2swatchling1", new object[] {false, -1, 170, -1}},
+            {"ch2swatchling2", new object[] {false, -1, 171, -1}},
+            {"ch2tasquemanager", new object[] {false, -1, 172, -1}},
+            {"ch2mauswheel", new object[] {false, 193, 191, -1}},
+            {"ch2dogpipis", new object[] {false, -1, 194, -1}},
+            {"ch2swatchling3", new object[] {false, -1, 196, -1}},
+            {"ch2tasquemanagersnowgrave", new object[] {false, -1, 176, -1}},
+            {"ch2enteracidlake", new object[] {false, -1, 200, -1}},
+            {"ch2blocked", new object[] {false, -1, 212, -1}},
+            {"ch2unblocked", new object[] {false, -1, 202, -1}},
+            {"ch2exitacidlake", new object[] {false, -1, 203, -1}},
+            {"ch2werewerewire", new object[] {false, -1, 205, -1}},
+            {"ch2queen", new object[] {false, -1, 207, -1}},
 
-            {"ch2sealfountain", new object[] {false, -1, 1}}
+            {"ch2end", new object[] {false, -1, 31, 1}}
         };
 
         vars.resetsRoom = new object[] {
@@ -144,82 +151,83 @@ init {
         vars.done = 0; // bool have we triggered this split already?
         vars.oldroom = 1; // int required old (last frame) room, -1 if none
         vars.curroom = 2;  // int required current room, -1 if none
+        vars.special = 3; // int if this split need special handleing, -1 if none
         vars.splits = new Dictionary<string, object[]>() {
             /*
             *   All Chapters
             */
-            {"startch2", new object[] {false, -1, 27}},
+            {"startch2", new object[] {false, -1, 27, -1}},
             /*
             *   Chapter 1
             */
-            {"ch1survey", new object[] {false, 281, 282}},
-            {"ch1lightworld", new object[] {false, -1, 314}},
-            {"ch1pre-castletown", new object[] {false, -1, 324}},
-            {"ch1castletown", new object[] {false, -1, 329}},
-            {"ch1rudinnskip1", new object[] {false, -1, 332}},
-            {"ch1rudinnskip2", new object[] {false, -1, 334}},
-            {"ch1rudinnskip3", new object[] {false, -1, 336}},
-            {"ch1vandalizedpuzzle", new object[] {false, -1, 343}},
-            {"ch1exitfields", new object[] {false, -1, 345}},
-            {"ch1pawnskip1", new object[] {false, -1, 347}},
-            {"ch1pawnskip2", new object[] {false, -1, 351}},
-            {"ch1exitcheckerboard", new object[] {false, -1, 353}},
-            {"ch1bloxerskip1", new object[] {false, -1, 365}},
-            {"ch1bloxerskip2", new object[] {false, -1, 376}},
-            {"ch1exitforest", new object[] {false, -1, 378}},
-            {"ch1captured", new object[] {false, -1, 385}},
-            {"ch1exitprison", new object[] {false, -1, 389}},
-            {"ch1rudinnrangerskip", new object[] {false, -1, 396}},
-            {"ch1headhathyskip", new object[] {false, -1, 400}},
-            {"ch1shopping", new object[] {false, -1, 405}},
-            {"ch1exitthrone", new object[] {false, -1, 407}},
-            {"ch1king", new object[] {false, -1, 409}},
+            {"ch1survey", new object[] {false, 281, 282, -1}},
+            {"ch1lightworld", new object[] {false, -1, 314, -1}},
+            {"ch1pre-castletown", new object[] {false, -1, 324, -1}},
+            {"ch1castletown", new object[] {false, -1, 329, -1}},
+            {"ch1rudinnskip1", new object[] {false, -1, 332, -1}},
+            {"ch1rudinnskip2", new object[] {false, -1, 334, -1}},
+            {"ch1rudinnskip3", new object[] {false, -1, 336, -1}},
+            {"ch1vandalizedpuzzle", new object[] {false, -1, 343, -1}},
+            {"ch1exitfields", new object[] {false, -1, 345, -1}},
+            {"ch1pawnskip1", new object[] {false, -1, 347, -1}},
+            {"ch1pawnskip2", new object[] {false, -1, 351, -1}},
+            {"ch1exitcheckerboard", new object[] {false, -1, 353, -1}},
+            {"ch1bloxerskip1", new object[] {false, -1, 365, -1}},
+            {"ch1bloxerskip2", new object[] {false, -1, 376, -1}},
+            {"ch1exitforest", new object[] {false, -1, 378, -1}},
+            {"ch1captured", new object[] {false, -1, 385, -1}},
+            {"ch1exitprison", new object[] {false, -1, 389, -1}},
+            {"ch1rudinnrangerskip", new object[] {false, -1, 396, -1}},
+            {"ch1headhathyskip", new object[] {false, -1, 400, -1}},
+            {"ch1shopping", new object[] {false, -1, 405, -1}},
+            {"ch1exitthrone", new object[] {false, -1, 407, -1}},
+            {"ch1king", new object[] {false, -1, 409, -1}},
             /*
             *   Chapter 2
             */
-            {"ch2lightworld", new object[] {false, -1, 84}},
-            {"ch2pre-cyberfield", new object[] {false, -1, 87}},
-            {"ch2tasque", new object[] {false, -1, 92}},
-            {"ch2mecabattlegame", new object[] {false, -1, 93}},
-            {"ch2virovirokun1", new object[] {false, 94, 95}},
-            {"ch2agree2all", new object[] {false, 95, 94}},
-            {"ch2djfight", new object[] {false, 97, 105}},
-            {"ch2djshop", new object[] {false, 236, 98}},
-            {"ch2werewire1", new object[] {false, -1, 104}},
-            {"ch2virovirokunpuzzle&cup", new object[] {false, -1, 100}},
-            {"ch2exitcyberfield", new object[] {false, -1, 119}},
-            {"ch2poppup", new object[] {false, -1, 124}},
-            {"ch2virovirokun2ambuy-lance1", new object[] {false, -1, 127}},
-            {"ch2buttonforcefield", new object[] {false, -1, 129}},
-            {"ch2werewire2", new object[] {false, -1, 132}},
-            {"ch2micepuzzle2", new object[] {false, -1, 134}},
-            {"ch2cheezemaze", new object[] {false, -1, 135}},
-            {"ch2micepuzzle3", new object[] {false, -1, 136}},
-            {"ch2berdly", new object[] {false, 137, 138}},
-            {"ch2berdlysnowgrave", new object[] {false, 137, 136}},
-            {"ch2spamton", new object[] {false, 139, 138}},
-            {"ch2fullparty", new object[] {false, -1, 142}},
-            {"ch2ambuy-lance2", new object[] {false, -1, 143}},
-            {"ch2maus", new object[] {false, -1, 144}},
-            {"ch2exitcybercity", new object[] {false, -1, 159}},
-            {"ch2exitcybercitysnowgrave", new object[] {false, 145, 0}},
-            {"ch2escapecell", new object[] {false, -1, 162}},
-            {"ch2lightpuzzle1", new object[] {false, -1, 163}},
-            {"ch2lightpuzzle2", new object[] {false, -1, 164}},
-            {"ch2lightpuzzle3", new object[] {false, -1, 165}},
-            {"ch2swatchling1", new object[] {false, -1, 169}},
-            {"ch2swatchling2", new object[] {false, -1, 170}},
-            {"ch2tasquemanager", new object[] {false, -1, 171}},
-            {"ch2mauswheel", new object[] {false, 192, 190}},
-            {"ch2dogpipis", new object[] {false, -1, 193}},
-            {"ch2swatchling3", new object[] {false, -1, 195}},
-            {"ch2tasquemanagersnowgrave", new object[] {false, -1, 175}},
-            {"ch2enteracidlake", new object[] {false, -1, 199}},
-            {"ch2blocked", new object[] {false, -1, 211}},
-            {"ch2unblocked", new object[] {false, -1, 201}},
-            {"ch2exitacidlake", new object[] {false, -1, 202}},
-            {"ch2werewerewire", new object[] {false, -1, 204}},
-            {"ch2queen", new object[] {false, -1, 206}},
+            {"ch2lightworld", new object[] {false, -1, 84, -1}},
+            {"ch2pre-cyberfield", new object[] {false, -1, 87, -1}},
+            {"ch2tasque", new object[] {false, -1, 92, -1}},
+            {"ch2mecabattlegame", new object[] {false, -1, 93, -1}},
+            {"ch2virovirokun1", new object[] {false, 94, 95, -1}},
+            {"ch2agree2all", new object[] {false, 95, 94, -1}},
+            {"ch2djfight", new object[] {false, 97, 105, -1}},
+            {"ch2djshop", new object[] {false, 236, 98, -1}},
+            {"ch2werewire1", new object[] {false, -1, 104, -1}},
+            {"ch2virovirokunpuzzle&cup", new object[] {false, -1, 100, -1}},
+            {"ch2exitcyberfield", new object[] {false, -1, 119, -1}},
+            {"ch2poppup", new object[] {false, -1, 124, -1}},
+            {"ch2virovirokun2ambuy-lance1", new object[] {false, -1, 127, -1}},
+            {"ch2buttonforcefield", new object[] {false, -1, 129, -1}},
+            {"ch2werewire2", new object[] {false, -1, 132, -1}},
+            {"ch2micepuzzle2", new object[] {false, -1, 134, -1}},
+            {"ch2cheezemaze", new object[] {false, -1, 135, -1}},
+            {"ch2micepuzzle3", new object[] {false, -1, 136, -1}},
+            {"ch2berdly", new object[] {false, 137, 138, -1}},
+            {"ch2berdlysnowgrave", new object[] {false, 137, 136, -1}},
+            {"ch2spamton", new object[] {false, 139, 138, -1}},
+            {"ch2fullparty", new object[] {false, -1, 142, -1}},
+            {"ch2ambuy-lance2", new object[] {false, -1, 143, -1}},
+            {"ch2maus", new object[] {false, -1, 144, -1}},
+            {"ch2exitcybercity", new object[] {false, -1, 159, -1}},
+            {"ch2exitcybercitysnowgrave", new object[] {false, 145, 0, -1}},
+            {"ch2escapecell", new object[] {false, -1, 162, -1}},
+            {"ch2lightpuzzle1", new object[] {false, -1, 163, -1}},
+            {"ch2lightpuzzle2", new object[] {false, -1, 164, -1}},
+            {"ch2lightpuzzle3", new object[] {false, -1, 165, -1}},
+            {"ch2swatchling1", new object[] {false, -1, 169, -1}},
+            {"ch2swatchling2", new object[] {false, -1, 170, -1}},
+            {"ch2tasquemanager", new object[] {false, -1, 171, -1}},
+            {"ch2mauswheel", new object[] {false, 192, 190, -1}},
+            {"ch2dogpipis", new object[] {false, -1, 193, -1}},
+            {"ch2swatchling3", new object[] {false, -1, 195, -1}},
+            {"ch2tasquemanagersnowgrave", new object[] {false, -1, 175, -1}},
+            {"ch2enteracidlake", new object[] {false, -1, 199, -1}},
+            {"ch2blocked", new object[] {false, -1, 211, -1}},
+            {"ch2unblocked", new object[] {false, -1, 201, -1}},
+            {"ch2exitacidlake", new object[] {false, -1, 202, -1}},
+            {"ch2werewerewire", new object[] {false, -1, 204, -1}},
+            {"ch2queen", new object[] {false, -1, 206, -1}},
 
             {"ch2sealfountain", new object[] {false, -1, 0}}
         };
@@ -547,25 +555,38 @@ split {
   switch(version) {
     case "v1.10/v1.09/v1.08":
     case "v1.07/v1.06/v1.05/v1.00":
-        foreach(string splitKey in vars.splits.Keys){
-            if ((settings[splitKey]) && !vars.splits[splitKey][vars.done]) {
+      if(current.ch2end1 != old.ch2end1 || current.ch2end2 != old.ch2end2) print("[DELTARUNE] ch2end1 : " + current.ch2end1 + ", ch2end2 : " + current.ch2end2);
+      foreach(string splitKey in vars.splits.Keys){
+          if ((settings[splitKey]) && !vars.splits[splitKey][vars.done]) {
 
-                // is there a current room requirement?
-                if ((vars.splits[splitKey][vars.curroom] != -1) && (current.room != vars.splits[splitKey][vars.curroom]))
-                    continue;
+              // is there a current room requirement?
+              if ((vars.splits[splitKey][vars.curroom] != -1) && (current.room != vars.splits[splitKey][vars.curroom]))
+                  continue;
 
-                // is there an old room requirement?
-                if ((vars.splits[splitKey][vars.oldroom] != -1) && (old.room != vars.splits[splitKey][vars.oldroom]))
-                    continue;
+              // is there an old room requirement?
+              if ((vars.splits[splitKey][vars.oldroom] != -1) && (old.room != vars.splits[splitKey][vars.oldroom]))
+                  continue;
 
-                vars.splits[splitKey][vars.done] = true;
+              if (vars.splits[splitKey][vars.special] != -1) {
+                bool pass = false;
 
-                print("[DELTARUNE] SPLIT " + splitKey);
+                switch((int)vars.splits[splitKey][vars.special]) {
+                  case 1: // Chapter 2 autosplit end
+                    pass = current.ch2end1 == 1237 && current.ch2end2 == 27;
+                    break;
+                }
 
-                return true;
-            }
-        }
-        break;
+                if (!pass) continue;
+              }
+
+              vars.splits[splitKey][vars.done] = true;
+
+              print("[DELTARUNE] SPLIT " + splitKey);
+
+              return true;
+          }
+      }
+      break;
     case "SURVEY_PROGRAM":
         foreach (string goal in vars.splits.Keys) {
             // is this an enabled split that is armed?
